@@ -12,13 +12,27 @@ class DeleteUserTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_user_can_only_delete_himself()
+    {
+        $user = factory(User::class)->create();
+        $userB = factory(User::class)->create();
+
+        $response = $this->json('delete', sprintf('api/users/%d', $userB->id), [], [
+            'Authorization' => 'Bearer ' . $user->api_token
+        ]);
+
+        $response->assertStatus(403);
+    }
+
     public function test_delete_user()
     {
         $user = factory(User::class)->create([
             'first_name' => 'Jack'
         ]);
 
-        $response = $this->json('delete', sprintf('api/users/%d', $user->id));
+        $response = $this->json('delete', sprintf('api/users/%d', $user->id), [], [
+            'Authorization' => 'Bearer ' . $user->api_token
+        ]);
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('users', [

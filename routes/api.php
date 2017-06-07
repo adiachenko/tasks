@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,15 +11,30 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('users', 'UserController@index');
+/*
+ * access tokens
+ */
+Route::post('auth/token', 'IssueAccessTokenController');
+
+
+/*
+ * users
+ */
+Route::get('users', 'UserController@index')
+    ->middleware('auth:api');
 
 Route::post('users', 'UserController@store');
 
-Route::get('users/{user}', 'UserController@show');
+Route::get('users/{user}', 'UserController@show')
+    ->middleware('auth:api');
 
-Route::delete('users/{user}', 'UserController@destroy');
+Route::delete('users/{user}', 'UserController@destroy')
+    ->middleware('auth:api', 'can:delete,user');
 
 
+/*
+ * tasks
+ */
 Route::get('tasks', 'TaskController@index');
 
 Route::post('tasks', 'TaskController@store');
@@ -33,4 +46,7 @@ Route::patch('tasks/{task}', 'TaskController@update');
 Route::delete('tasks/{task}', 'TaskController@destroy');
 
 
+/*
+ * tasks completion
+ */
 Route::patch('tasks/{task}/completed', 'TaskCompletionController@update');
