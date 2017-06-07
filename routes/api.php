@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('users', 'UserController@index');
+
+Route::post('users', 'UserController@store');
+
+Route::get('users/{user}', 'UserController@show');
+
+Route::delete('users/{user}', 'UserController@destroy');
+
+
 Route::get('tasks', 'TaskController@index');
 
 Route::post('tasks', 'TaskController@store');
