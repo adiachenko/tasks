@@ -35,18 +35,24 @@ Route::delete('users/{user}', 'UserController@destroy')
 /*
  * tasks
  */
-Route::get('tasks', 'TaskController@index');
+Route::get('tasks', 'TaskController@index')
+    ->middleware('auth:api');
 
-Route::post('tasks', 'TaskController@store');
+Route::post('tasks', 'TaskController@store')
+    ->middleware('auth:api');
 
-Route::get('tasks/{task}', 'TaskController@show');
+Route::get('tasks/{task}', 'TaskController@show')
+    ->middleware('auth:api');
 
-Route::patch('tasks/{task}', 'TaskController@update');
+Route::patch('tasks/{task}', 'TaskController@update')
+    ->middleware('auth:api');
 
-Route::delete('tasks/{task}', 'TaskController@destroy');
+Route::delete('tasks/{task}', 'TaskController@destroy')
+    ->middleware('auth:api');
 
 
 /*
  * tasks completion
  */
-Route::patch('tasks/{task}/completed', 'TaskCompletionController@update');
+Route::patch('tasks/{task}/completed', 'TaskCompletionController@update')
+    ->middleware('auth:api');

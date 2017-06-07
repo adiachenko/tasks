@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Task;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -12,11 +13,23 @@ class ViewTaskTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_list_tasks()
+    public function test_list_tasks_denied_for_unauthorized_users()
     {
         factory(Task::class)->create();
 
         $response = $this->json('get', sprintf('api/tasks'));
+
+        $response->assertStatus(401);
+    }
+
+    public function test_list_tasks()
+    {
+        $user = factory(User::class)->create();
+        factory(Task::class)->create();
+
+        $response = $this->json('get', sprintf('api/tasks'), [], [
+            'Authorization' => 'Bearer ' . $user->api_token
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -29,11 +42,23 @@ class ViewTaskTest extends TestCase
             ]);
     }
 
-    public function test_show_task()
+    public function test_show_task_denied_for_unauthorized_users()
     {
         $task = factory(Task::class)->create();
 
         $response = $this->json('get', sprintf('api/tasks/%d', $task->id));
+
+        $response->assertStatus(401);
+    }
+
+    public function test_show_task()
+    {
+        $user = factory(User::class)->create();
+        $task = factory(Task::class)->create();
+
+        $response = $this->json('get', sprintf('api/tasks/%d', $task->id), [], [
+            'Authorization' => 'Bearer ' . $user->api_token
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
