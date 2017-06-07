@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CreateUserTest extends TestCase
+class SaveUserTest extends TestCase
 {
     use DatabaseMigrations;
 

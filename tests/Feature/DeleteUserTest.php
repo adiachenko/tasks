@@ -18,7 +18,7 @@ class DeleteUserTest extends TestCase
         $userB = factory(User::class)->create();
 
         $response = $this->json('delete', sprintf('api/users/%d', $userB->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(403);
@@ -31,7 +31,7 @@ class DeleteUserTest extends TestCase
         ]);
 
         $response = $this->json('delete', sprintf('api/users/%d', $user->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(204);

@@ -37,7 +37,7 @@ class DeleteTaskTest extends TestCase
         ]);
 
         $response = $this->json('delete', sprintf('api/tasks/%d', $task->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(204);

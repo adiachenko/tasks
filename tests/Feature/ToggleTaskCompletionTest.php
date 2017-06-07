@@ -34,7 +34,7 @@ class ToggleTaskCompletionTest extends TestCase
         $response = $this->json('patch', sprintf('api/tasks/%d/completed', $task->id), [
             'completed' => true,
         ], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(204);
@@ -51,7 +51,7 @@ class ToggleTaskCompletionTest extends TestCase
         ]);
 
         $response = $this->json('patch', sprintf('api/tasks/%d/completed', $task->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(422)

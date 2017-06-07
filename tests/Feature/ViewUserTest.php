@@ -24,7 +24,7 @@ class ViewUserTest extends TestCase
         $user = factory(User::class)->times(2)->create()->first();
 
         $response = $this->json('get', 'api/users', [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)
@@ -41,7 +41,7 @@ class ViewUserTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->json('get', 'api/users', [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)
@@ -65,7 +65,7 @@ class ViewUserTest extends TestCase
         $userB = factory(User::class)->create();
 
         $response = $this->json('get', sprintf('api/users/%d', $userB->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)

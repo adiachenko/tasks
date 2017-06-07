@@ -28,7 +28,7 @@ class ViewTaskTest extends TestCase
         factory(Task::class)->create();
 
         $response = $this->json('get', sprintf('api/tasks'), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)
@@ -57,7 +57,7 @@ class ViewTaskTest extends TestCase
         $task = factory(Task::class)->create();
 
         $response = $this->json('get', sprintf('api/tasks/%d', $task->id), [], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)

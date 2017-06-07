@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CreateTaskTest extends TestCase
+class SaveTaskTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,7 +31,7 @@ class CreateTaskTest extends TestCase
             'name' => 'Task name',
             'description' => 'Task description',
         ], [
-            'Authorization' => 'Bearer ' . $user->api_token,
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(201)
@@ -50,7 +50,7 @@ class CreateTaskTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->json('post', 'api/tasks', [], [
-            'Authorization' => 'Bearer ' . $user->api_token,
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(422)
@@ -66,7 +66,7 @@ class CreateTaskTest extends TestCase
         $response = $this->json('post', 'api/tasks', [
             'name' => 'gBcUdeYCX3bI0TtaHYzVV1FnHUratwfOYnkMq10PbzGUHm3AR1amUHOW8KRMnvh7dHYQOjYyOdLD9bSRFBv5xn2GlwH1ropdvAcKl00rR4JuEsZzrTknIPoV4Ab942cKF2dVPQCqraTK7aTtaUtWjBY5Xt52YfeerQ6bEeA1cOq3CM5MoOcEA8gaAeWdy172fusFprJTNTyZoUtrPn4lhVg5rQPIq2MUyc1UstT0bXrtanrwdNtsFfNVj480Sld1',
         ], [
-            'Authorization' => 'Bearer ' . $user->api_token,
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(422)
@@ -96,7 +96,7 @@ class CreateTaskTest extends TestCase
             'name' => 'New task name',
             'description' => 'New task description',
         ], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)
@@ -119,7 +119,7 @@ class CreateTaskTest extends TestCase
         $response = $this->json('patch', sprintf('api/tasks/%d', $task->id), [
             'name' => 'New task name'
         ], [
-            'Authorization' => 'Bearer ' . $user->api_token
+            'Authorization' => sprintf('Bearer %s', $user->api_token),
         ]);
 
         $response->assertStatus(200)
