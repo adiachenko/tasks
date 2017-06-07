@@ -33,6 +33,18 @@ Route::delete('users/{user}', 'UserController@destroy')
 
 
 /*
+ * send email confirmation
+ */
+Route::post('email-confirmations', 'SendEmailConfirmationController@store');
+
+
+/*
+ * confirm email
+ */
+Route::patch('users/email', 'ConfirmEmailController@update');
+
+
+/*
  * tasks
  */
 Route::get('tasks', 'TaskController@index')

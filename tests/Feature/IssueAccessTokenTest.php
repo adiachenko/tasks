@@ -12,10 +12,26 @@ class IssueAccessTokenTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_issue_token_denied_for_uers_with_unconfirmed_email()
+    {
+        factory(User::class)->create([
+            'email' => 'jack@mail.com',
+            'password' => bcrypt('secret')
+        ]);
+
+        $response = $this->json('post', 'api/auth/token', [
+            'email' => 'jack@mail.com',
+            'password' => 'secret'
+        ]);
+
+        $response->assertStatus(401);
+    }
+
     public function test_issue_token()
     {
         $user = factory(User::class)->create([
             'email' => 'jack@mail.com',
+            'email_confirmed' => true,
             'password' => bcrypt('secret')
         ]);
 

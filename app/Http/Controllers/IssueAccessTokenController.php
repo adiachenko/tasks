@@ -18,7 +18,13 @@ class IssueAccessTokenController extends Controller
             'password' => 'required'
         ]);
 
-        abort_unless(Auth::attempt(['email' => $request->email, 'password' => $request->password]), 401);
+        $authenticated = Auth::attempt([
+            'email' => $request->email,
+            'email_confirmed' => true,
+            'password' => $request->password
+        ]);
+
+        abort_unless($authenticated, 401);
 
         return response()->json([
             'data' => [

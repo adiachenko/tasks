@@ -99,4 +99,19 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Email Confirmations
+    |--------------------------------------------------------------------------
+    |
+    | The expire time is the number of minutes that the confirmation link should
+    | be considered valid. This security feature keeps tokens short-lived so
+    | they have less time to be guessed. You may change this as needed.
+    |
+    */
+
+    'email_confirmations' => [
+        'expire' => 60,
+    ],
+
 ];
